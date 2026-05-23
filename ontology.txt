@@ -1,0 +1,41 @@
+[ WorldRegion ]                        [ FormatGroup ]
+   (e.g., "Southeast Asia")               (e.g., "Drinking & Nightlife")
+          ^                                      ^
+          |                                      |
+   (:ORIGINATES_FROM)                     (:BELONGS_TO_GROUP)
+          |                                      |
+      [ Cuisine ]                         [ EstablishmentType ]
+   (e.g., "Vietnamese")                   (e.g., "Gastropub")
+          ^                                      ^
+          |                                      |
+       (:SERVES)                             (:HAS_TYPE)
+          |                                      |
+          +--------------+       +---------------+
+                         |       |
+                         v       v
+                   +---------------------------+
+                   |        Restaurant         |
+                   +---------------------------+
+                   | * id ("g187309...")       |
+                   | * name ("Shami")          |
+                   | * address                 |
+                   | * rating (Float)          |
+                   | * location (Spatial Point)|
+                   +---------------------------+
+                     /           |           \
+                    /            |            \
+         (:SUITABLE_FOR)   (:LOCATED_IN)   (:HAS_PRICE)
+                  /              |              \
+                 v               v               v
+            [ Diet ]      [ Location (City)]  [ PriceCategory ]
+        (e.g., "Vegan")  (e.g., "Munich")     (e.g., "€€-€€€")
+                                 |
+                            (:IS_PART_OF)
+                                 v
+                          [ Location (Region) ]
+                          (e.g., "Bavaria")
+                                 |
+                            (:IS_PART_OF)
+                                 v
+                          [ Location (Country) ]
+                          (e.g., "Germany")

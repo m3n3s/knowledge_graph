@@ -7,9 +7,11 @@ driver = GraphDatabase.driver("bolt://localhost:7687", auth=("neo4j", "neoneoneo
 @app.get("/api/recommendations")
 def get_recommendations(city: str, cuisine: str):
     cypher_query = """
-    MATCH (r:Restaurant)-[:SERVES]->(c:Cuisine {name: $cuisine}),
-          (r)-[:LOCATED_IN]->(l:Locality)-[:PART_OF]->(cit:City {name: $city})
-    RETURN r.name AS name, r.rating AS rating, r.average_cost AS cost, l.name AS locality
+    MATCH (targetCuisine:Cuisine {name: "Vietnamese"})-[:ORIGINATES_FROM]->(region:WorldRegion)
+    MATCH (siblingCuisine:Cuisine)-[:ORIGINATES_FROM]->(region)
+    MATCH (r:Restaurant)-[:SERVES]->(siblingCuisine)
+    MATCH (r)-[:LOCATED_IN]->(:Location {name: "Munich"})
+    RETURN r.name AS name, r.address AS address, r.rating AS rating, siblingCuisine.name AS cuisine_type
     ORDER BY r.rating DESC
     LIMIT 10
     """
